@@ -30,7 +30,6 @@ QLL = 1
 Len = 18
 LL = QLL*Len
 TT = 5
-lamt = 0.1
 sam = 10
 osam = 10
 ################################################################
@@ -350,7 +349,7 @@ class haltCallback(tf.keras.callbacks.Callback):
             self.begin = time.time() - self.start
         self.ave = (self.time-self.begin)/(epoch+1)
         tf.print(epoch,' ',update,' ',self.ave,' ',self.begin)
-        print(epoch,' ',update,' ',self.ave,' ',self.begin,' ',i1,' ',i2,' ',i3,' ',i4,' ',i5,' ',i6,' ',i7,' ',i8,' ',i9,' ',i10)
+        print(epoch,' ',update)
         # print(model.layers[1].get_weights())
         update = tf.reshape(update,[1])
         self.lossb = tf.tensor_scatter_nd_update(self.lossb,indices,update)
