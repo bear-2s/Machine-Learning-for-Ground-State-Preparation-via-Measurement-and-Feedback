@@ -73,23 +73,6 @@ op_down2 = tf.experimental.numpy.kron(op_down2,downz)
 op_down2 = tf.experimental.numpy.kron(op_down2,Iz)
 op_down2 = tf.experimental.numpy.kron(op_down2,Iz)
 def initial_prep():
-    rr = 1
-    zz = np.random.uniform(-1,1)
-    cos_zz = zz
-    sin_zz = 1 - zz**2
-    phi = np.random.uniform(0,2*np.pi)
-    a = 0.5*(1+rr*cos_zz) + 0.j
-    b = 1 - a
-    c = rr/2*sin_zz*(np.cos(phi) - np.sin(phi)*1.j)
-    c_ = rr/2*sin_zz*(np.cos(phi) + np.sin(phi)*1.j)
-    state = np.array([[a,c],[c_,b]])
-    state = tf.convert_to_tensor(state, dtype=tf.complex128)
-    iupx = tf.random.uniform(shape=[1,1],minval=-1,maxval=1,dtype=DEFAULT_TENSOR_TYPE)
-    iupy = tf.random.uniform(shape=[1,1],minval=-1,maxval=1,dtype=DEFAULT_TENSOR_TYPE)
-    iupz = tf.random.uniform(shape=[1,1],minval=-1,maxval=1,dtype=DEFAULT_TENSOR_TYPE)
-    iupxyz = tf.concat([tf.concat([iupx, iupy], 1), iupz], 1)
-    return state, iupxyz
-def initial_prep2():
     ini_theta1 = tf.random.uniform(shape=[2],minval=0,maxval=2*tnp.pi,dtype=DEFAULT_TENSOR_TYPE)
     state1 = inicuit(ini_theta1)
     state1 = tf.reshape(state1,[1,2,2])
@@ -239,7 +222,7 @@ class RNNModel(keras.Model):
     def train_step(self, data):
         qs, target = data
         with tf.GradientTape() as tape:
-            initial_state, iupxyz = initial_prep2()
+            initial_state, iupxyz = initial_prep()
             #1
             m_iupxyz0 = tf.reshape(iupxyz,[1,1,3])
             h_state11,c_state11 = self.model1(m_iupxyz0,None,None, training=True)
